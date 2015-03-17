@@ -24,7 +24,8 @@ class User(models.Model):  # See below 1
 class Category(models.Model):
     name = models.CharField(max_length=128, unique=True)
     slug = models.SlugField(unique=True)  # So it can be displayed on the url.
-
+    stories = models.IntegerField(default=0) 
+    
     def save(self, *args, **kwargs):
             self.slug = slugify(self.name)
             super(Category, self).save(*args, **kwargs)
@@ -42,7 +43,8 @@ class CompletedStory(models.Model):  # See below 2
     creator = models.CharField(max_length=128)
     story_text = models.TextField()  # Stores large amounts of Text. See django documentation
     slug = models.SlugField()  # So it can be displayed on the url.
-
+    rating = models.IntegerField(default=0)
+    
     def save(self, *args, **kwargs):
             self.slug = slugify(self.completed_story_id)
             super(CompletedStory, self).save(*args, **kwargs)
@@ -60,7 +62,8 @@ class OngoingStory(models.Model):
     story_text = models.TextField()  # Stores large amounts of Text. See django documentation
     users = models.ManyToManyField(User)  # Nice way of connected Many to Many without another table.
     slug = models.SlugField(unique=True)  # So it can be displayed on the url.
-
+    creation_date = models.DateTimeField(auto_now_add = True, editable=False)
+    
     def save(self, *args, **kwargs):
             self.slug = slugify(self.ongoing_story_id)
             super(OngoingStory, self).save(*args, **kwargs)
@@ -69,11 +72,11 @@ class OngoingStory(models.Model):
         return self.title
 
 
-# This is the Rating model. It has the ratings of a story
-class Rating(models.Model):
-    rating = models.IntegerField()  # Ratings will be from 1 to 10
-    rater = models.ForeignKey(User)  # Connection with User Model
-    story = models.ForeignKey(CompletedStory)  # Connection with Story model
+#This is the Rating model. It has the ratings of a story
+# class Rating(models.Model):
+    # rating = models.IntegerField()  # Ratings will be from 1 to 10
+    # rater = models.ForeignKey(User)  # Connection with User Model
+    # story = models.ForeignKey(CompletedStory)  # Connection with Story model
 
 
 

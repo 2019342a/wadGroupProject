@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Index{% endblock %}
+
+        {% block body_block %}
+{% if user.is_authenticated %}
+    <div class="page-header">
+
+                <h1>Are you ready to write a story, {{ user.username }}?</h1>
+            {% else %}
+                <h1>Stories!!!</h1>
+            {% endif %}
+</div>
+
+         <div class="row placeholders">
+            <div class="col-xs-12 col-sm-6 placeholder">
+               <h4>Completed Stories</h4>
+
+              {% if completed_stories %}
+                    <ul>
+                        {% for story in completed_stories %}
+                         <li><a href="{% url 'index'  %}">{{ story.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <strong>There are no completed stories present.</strong>
+                {% endif %}
+
+            </div>
+            <div class="col-xs-12 col-sm-6 placeholder">
+              <h4>Ongoing stories</h4>
+
+                {% if ongoing_stories %}
+                    <ul>
+                        {% for story in ongoing_stories %}
+                         <li><a href="{% url 'index'  %}">{{ story.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <strong>There are no ongoing stories right now.</strong>
+                {% endif %}
+            </div>
+
+          </div>
+
+          <div class="col-sm-3 col-md-2 sidebar">
+
+    {% block side_block %}
+    <!-- here should be the categories -->
+    {% endblock %}
+
+
+        </div>
+
+        {% endblock %}
