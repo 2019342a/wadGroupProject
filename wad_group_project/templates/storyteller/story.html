@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body_block %}
+	{% if title %}
+		<h1>{{ title }}</h1>
+		<p>{{ text }}
+		<br>
+		<a href="{% url 'index'  %}">Creator: {{ creator }}</a>
+		</p>
+	{% else %}
+        <strong>No such story exists</strong>
+	{% endif %}
+{% endblock %}

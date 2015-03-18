@@ -14,13 +14,13 @@ def populate():
 
     funny = add_cat('Funny', 1)
 
-    action = add_cat('Action')
+    action = add_cat('Action',0)
 
     user1 = add_user('test1', 18, 'theofilosalexiou@gmail.com', 'test1')
 
     user2 = add_user('test2', 32, 'theofilosalexiou@gmail.com', 'test2')
 
-    story1 = add_story(100, horror, 'scary1', 'test1', 'This is a test. Blah blah. Scary story',)
+    story1 = add_story(100, horror, 'scary1', 'test1', 'This is a test. Blah blah. Scary story', 0)
 
     story2 = add_story(400, horror, 'scary2', 'test2', 'This is a test. Blah blah. Super scary story', rating = 5)
 

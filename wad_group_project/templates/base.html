@@ -33,8 +33,13 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-                <li><a href="{% url 'index' %}">Home</a></li>
-                    <!--links for navigation here -->
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'index' %}">Create a story</a></li> <!-- change link -->
+                    <li><a href="{% url 'auth_logout' %}?next=/storyteller/">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'auth_login' %}">Login</a></li>                    
+                    <li><a href="{% url 'registration_register' %}">Register Here</a></li>
+                {% endif %}
 
               </ul>
         </div>

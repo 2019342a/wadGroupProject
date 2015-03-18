@@ -21,7 +21,7 @@
               {% if completed_stories %}
                     <ul>
                         {% for story in completed_stories %}
-                         <li><a href="{% url 'index'  %}">{{ story.name }}</a></li>
+                         <li><a href="{% url 'story' story.slug  %}">{{ story.title }} (Rating: {{story.rating}})</a></li>
                         {% endfor %}
                     </ul>
                 {% else %}
@@ -48,7 +48,16 @@
           <div class="col-sm-3 col-md-2 sidebar">
 
     {% block side_block %}
-    <!-- here should be the categories -->
+    {% if categories %}
+			<strong>Categories: </strong> <br> <br>
+                    <ul>
+                        {% for cat in categories %}
+                         <li><a href="{% url 'category' cat.slug %}">{{ cat.name }} ({{ cat.stories }})</a></li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <strong>There are no ongoing stories right now.</strong>
+                {% endif %}
     {% endblock %}
 
 

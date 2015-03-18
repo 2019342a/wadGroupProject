@@ -1,0 +1,4 @@
+concerns:
+
+- slugs on stories are on id (maybe good, maybe not);
+- add a contributers field in the stories model ??

@@ -14,3 +14,36 @@ def index(request):
     response = render(request,'storyteller/index.html', context_dict)
 
     return response
+	
+def story(request, story_slug):
+    context_dict = {}
+    
+    try:
+        story = CompletedStory.objects.get(slug=story_slug)
+        context_dict['title']=story.title
+        context_dict['text']=story.story_text
+        context_dict['creator']=story.creator
+    
+    except:
+        pass
+        
+    return render(request, 'storyteller/story.html', context_dict)
+    
+def category(request, category_slug):
+
+    context_dict = {}
+
+    try:
+        category = Category.objects.get(slug=category_slug)
+        context_dict['category_name'] = category.name
+
+        completed_stories = CompletedStory.objects.filter(category=category)
+
+        context_dict['completed_stories'] = completed_stories
+
+        context_dict['category'] = category
+        
+    except Category.DoesNotExist:
+        pass
+
+    return render(request, 'storyteller/category.html', context_dict)
