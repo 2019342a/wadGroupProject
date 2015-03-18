@@ -10,18 +10,18 @@
 
                 <h1>Are you ready to write a story, {{ user.username }}?</h1>
             {% else %}
-                <h1>Stories!!!</h1>
+                <h1><span class="label label-primary">Stories!!!</span></h1>
             {% endif %}
 </div>
 
          <div class="row placeholders">
             <div class="col-xs-12 col-sm-6 placeholder">
-               <h4>Completed Stories</h4>
+               <h4><span class="label label-info">Completed Stories</span></h4><br>
 
               {% if completed_stories %}
-                    <ul>
+                   <ul class="list-group">
                         {% for story in completed_stories %}
-                         <li><a href="{% url 'story' story.slug  %}">{{ story.title }} (Rating: {{story.rating}})</a></li>
+                        <li class="list-group-item"><a href="{% url 'story' story.slug  %}">{{ story.title }} (Rating: {{story.rating}})</a></li>
                         {% endfor %}
                     </ul>
                 {% else %}
@@ -30,12 +30,12 @@
 
             </div>
             <div class="col-xs-12 col-sm-6 placeholder">
-              <h4>Ongoing stories</h4>
+              <h4><span class="label label-info">Ongoing stories</span></h4><br>
 
                 {% if ongoing_stories %}
-                    <ul>
+                  <ul class="list-group">
                         {% for story in ongoing_stories %}
-                         <li><a href="{% url 'index'  %}">{{ story.title }}</a></li>
+                        <li class="list-group-item"><a href="{% url 'index'  %}">{{ story.title }}</a></li>
                         {% endfor %}
                     </ul>
                 {% else %}
@@ -49,10 +49,10 @@
 
     {% block side_block %}
     {% if categories %}
-			<strong>Categories: </strong> <br> <br>
-                    <ul>
+    <h2><span class="label label-default">Categories</span></h2> <br>
+                    <ul class="list-group">
                         {% for cat in categories %}
-                         <li><a href="{% url 'category' cat.slug %}">{{ cat.name }} ({{ cat.stories }})</a></li>
+                        <li class="list-group-item"><a href="{% url 'category' cat.slug %}">{{ cat.name }} ({{ cat.stories }})</a></li>
                         {% endfor %}
                     </ul>
                 {% else %}
