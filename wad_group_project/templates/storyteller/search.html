@@ -21,6 +21,16 @@
     {%else%} 
         <strong>No users match your search</strong>
     {%endif%}
+    <br>
+    {% if ongoing_story_list %}
+        <strong> Ongoing stories: </strong>
+    {% for story in ongoing_story_list %}
+                            <li class="list-group-item"><a href="{% url 'index'  %}"> {{ story.title }} Created: {{story.creation_date}}</a></li>
+        {% endfor %}
+    {%else%} 
+        <strong>No ongoing stories match your search</strong>
+    {%endif%}
+    
 
 
 {% endblock %}
