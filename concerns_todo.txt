@@ -1,4 +1,7 @@
-concerns:
+TODO: we need list for top rated, newest, most viewd, so far we have top rated.
+      we need date in completed stories database, we currently don't have.
+      we need to create a better model for user using the django.contrib.auth.
 
-- slugs on stories are on id (maybe good, maybe not);
-- add a contributers field in the stories model ??
+Concerns : For the ongoing stories we need javascript. After cheking the documentation 
+           the only think I have found is this http://getbootstrap.com/javascript/#transitions.
+           

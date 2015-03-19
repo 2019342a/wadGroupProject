@@ -18,16 +18,34 @@
             <div class="col-xs-12 col-sm-6 placeholder">
                <h4><span class="label label-info">Completed Stories</span></h4><br>
 
+             <div role="tabpanel">
+               <ul class="nav nav-tabs" role="tablist">
+                 <li role="presentation" class=" active"><a href="#top" aria-controls="top" role="tab" data-toggle="tab">Top</a>
+                 <li role="presentation"><a href="#new" aria-controls="new" role="tab" data-toggle="tab">New</a></li>
+                 <li role="presentation"><a href="#popular" aria-controls="popular" role="tab" data-toggle="tab">Popular</a></li>
+               </ul>
+
               {% if completed_stories %}
+              <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="top">
                    <ul class="list-group">
                         {% for story in completed_stories %}
                         <li class="list-group-item"><a href="{% url 'story' story.slug  %}">{{ story.title }} (Rating: {{story.rating}})</a></li>
                         {% endfor %}
-                    </ul>
+                  </ul>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="new">
+                  <ul class="list-group">
+                       {% for story in completed_stories %}
+                       <li class="list-group-item"><a href="{% url 'story' story.slug  %}">{{ story.title }} (Rating: {{story.rating}})</a></li>
+                       {% endfor %}
+                 </ul></div>
+                <div role="tabpanel" class="tab-pane" id="popular">...</div>
+              </div>
                 {% else %}
                     <strong>There are no completed stories present.</strong>
                 {% endif %}
-
+              </div>
             </div>
             <div class="col-xs-12 col-sm-6 placeholder">
               <h4><span class="label label-info">Ongoing stories</span></h4><br>
