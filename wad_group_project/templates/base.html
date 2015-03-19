@@ -36,10 +36,11 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-                <form method="get" action="{% url 'search' %}">
-                    <label for="id_q">Search:</label>
-                    <input type="text" name="q" id="id_q"/>
-                    <input type="submit" value="Submit"/>
+                <form class="navbar-form navbar-left" method="get" action="{% url 'search' %}">
+                  <div class="form-group">
+                    <input type="text" name="q" id="id_q" class="form-control" placeholder="Search">
+                    </div>
+                    <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
                 </form>
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'index' %}">Create a story</a></li> <!-- change link -->
