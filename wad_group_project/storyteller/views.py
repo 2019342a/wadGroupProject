@@ -5,11 +5,13 @@ from storyteller.models import Category, OngoingStory, CompletedStory
 
 def index(request):
     category_list = Category.objects.order_by('-stories')[:5]
-    completed_story_list = CompletedStory.objects.order_by('-rating')[:5]
+    completed_story_list_top = CompletedStory.objects.order_by('-rating')[:5]
+    completed_story_list_new = CompletedStory.objects.order_by('-creation_date')[:5]
+    completed_story_list_popular = CompletedStory.objects.order_by('-views')[:5]
     ongoing_story_list = OngoingStory.objects.order_by('-creation_date')[:5]
     
-    context_dict = {'categories': category_list, 'completed_stories': completed_story_list,
-    'ongoing_stories': ongoing_story_list}
+    context_dict = {'categories': category_list, 'completed_stories_top': completed_story_list_top, 'completed_stories_popular': completed_story_list_popular,
+    'ongoing_stories': ongoing_story_list, 'completed_stories_new': completed_story_list_new, }
 
     response = render(request,'storyteller/index.html', context_dict)
 

@@ -25,22 +25,30 @@
                  <li role="presentation"><a href="#popular" aria-controls="popular" role="tab" data-toggle="tab">Popular</a></li>
                </ul>
 
-              {% if completed_stories %}
+              {% if completed_stories_top %}
               <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="top">
                    <ul class="list-group">
-                        {% for story in completed_stories %}
-                        <li class="list-group-item"><a href="{% url 'story' story.slug  %}">{{ story.title }} (Rating: {{story.rating}})</a></li>
+                        {% for story in completed_stories_top %}
+                            <li class="list-group-item"><a href="{% url 'story' story.slug  %}">
+                            {{ story.title }} (Rating: {{story.rating}} Created: {{story.creation_date}} Views: {{story.views}} )</a></li>
                         {% endfor %}
                   </ul>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="new">
                   <ul class="list-group">
-                       {% for story in completed_stories %}
-                       <li class="list-group-item"><a href="{% url 'story' story.slug  %}">{{ story.title }} (Rating: {{story.rating}})</a></li>
+                       {% for story in completed_stories_new %}
+                           <li class="list-group-item"><a href="{% url 'story' story.slug  %}">
+                           {{ story.title }} (Rating: {{story.rating}} Created: {{story.creation_date}} Views: {{story.views}} )</a></li>
                        {% endfor %}
                  </ul></div>
-                <div role="tabpanel" class="tab-pane" id="popular">...</div>
+                <div role="tabpanel" class="tab-pane" id="popular"><ul class="list-group">
+                       {% for story in completed_stories_popular %}
+                            <li class="list-group-item"><a href="{% url 'story' story.slug  %}">
+                            {{ story.title }} (Rating: {{story.rating}} Created: {{story.creation_date}} Views: {{story.views}} )</a></li>
+                       {% endfor %}
+                 </ul>
+                 </div>
               </div>
                 {% else %}
                     <strong>There are no completed stories present.</strong>

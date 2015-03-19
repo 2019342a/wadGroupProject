@@ -44,7 +44,8 @@ class CompletedStory(models.Model):  # See below 2
     story_text = models.TextField()  # Stores large amounts of Text. See django documentation
     slug = models.SlugField()  # So it can be displayed on the url.
     rating = models.IntegerField(default=0)
-    
+    creation_date = models.DateTimeField(auto_now_add = True, editable=False)
+	
     def save(self, *args, **kwargs):
             self.slug = slugify(self.completed_story_id)
             super(CompletedStory, self).save(*args, **kwargs)
