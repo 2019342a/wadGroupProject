@@ -36,6 +36,11 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
+                <form method="get" action="{% url 'search' %}">
+                    <label for="id_q">Search:</label>
+                    <input type="text" name="q" id="id_q"/>
+                    <input type="submit" value="Submit"/>
+                </form>
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'index' %}">Create a story</a></li> <!-- change link -->
                     <li><a href="{% url 'auth_logout' %}?next=/storyteller/">Logout</a></li>

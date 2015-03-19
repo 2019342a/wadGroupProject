@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Search results{% endblock %}
+{% block body_block %}
+    
+    {% if completed_story_list %}
+        <strong> Completed stories: </strong>
+        {% for story in completed_story_list %}
+                            <li class="list-group-item"><a href="{% url 'story' story.slug  %}">
+                            {{ story.title }} (Rating: {{story.rating}} Created: {{story.creation_date}} Views: {{story.views}} )</a></li>
+        {% endfor %}
+    {%else%} 
+        <strong>No completed stories match your search</strong>
+    {%endif%}
+    <br>
+    {% if user_list %}
+        <strong> Users: </strong>
+        {% for user in user_list %}
+                            <li class="list-group-item"><a href="{% url 'index'  %}">{{user.name}}</a></li>
+        {% endfor %}
+    {%else%} 
+        <strong>No users match your search</strong>
+    {%endif%}
+
+
+{% endblock %}

@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import render
-from storyteller.models import Category, OngoingStory, CompletedStory
+from itertools import chain
+from operator import attrgetter
+from storyteller.models import Category, OngoingStory, CompletedStory, User
+from django.db.models import Q
 
 def index(request):
     category_list = Category.objects.order_by('-stories')[:5]
@@ -49,3 +52,18 @@ def category(request, category_slug):
         pass
 
     return render(request, 'storyteller/category.html', context_dict)
+    
+def search(request):
+    qTerm = request.GET.get('q')
+    context_dict = {}
+    result_list = []            
+    completed_story_list = CompletedStory.objects.filter(Q(title__icontains=qTerm))
+    user_list = User.objects.filter(Q(name__icontains=qTerm))
+    ongoing_story_list = OngoingStory.objects.filter(Q(title__icontains=qTerm))
+    
+    context_dict['completed_story_list'] = completed_story_list
+    context_dict['ongoing_story_list'] = ongoing_story_list
+    context_dict['user_list'] = user_list
+    
+    return render(request, 'storyteller/search.html', context_dict)
+    
