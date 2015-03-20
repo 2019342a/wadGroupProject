@@ -3,8 +3,12 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from itertools import chain
 from operator import attrgetter
-from storyteller.models import Category, OngoingStory, CompletedStory, User
+from storyteller.models import Category, OngoingStory, CompletedStory, UserProfile
 from django.db.models import Q
+from django.shortcuts import redirect
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from storyteller.forms import UserForm, UserProfileForm
 
 def index(request):
     category_list = Category.objects.order_by('-stories')[:5]
@@ -66,4 +70,28 @@ def search(request):
     context_dict['user_list'] = user_list
     
     return render(request, 'storyteller/search.html', context_dict)
-    
+
+@login_required
+def register_profile(request):
+    context_dict = {}
+    registered = False
+    if request.method == 'POST':
+        try:
+            profile = UserProfile.objects.get(user=request.user)
+            profile_form = UserProfileForm(request.POST, instance=profile)
+        except:
+            profile_form = UserProfileForm(request.POST)
+        if profile_form.is_valid():
+            profile = profile_form.save(commit=False)
+            profile.user = request.user
+            if 'picture' in request.FILES:
+                profile.picture = request.FILES['picture']
+            profile.save()
+            registered = True
+        else:
+            print profile_form.errors
+    else:
+        profile_form = UserProfileForm()
+    context_dict['profile_form'] = profile_form
+    context_dict['registered'] = registered
+    return render(request, 'registration/profile_registration.html', context_dict)

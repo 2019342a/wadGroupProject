@@ -2,22 +2,17 @@ __author__ = 'Theofilos Alexiou'
 
 from django.db import models
 from django.template.defaultfilters import slugify
-
+from django.contrib.auth.models import User
 
 # This is the User model. It contains the basic information of a user
-class User(models.Model):  # See below 1
-    name = models.CharField(max_length=128, unique=True)
-    age = models.IntegerField(default=None)
-    email = models.EmailField(max_length=75)
-    password = models.CharField(max_length=128)
-    slug = models.SlugField(unique=True)  # So it can be displayed on the url.
-
-    def save(self, *args, **kwargs):
-            self.slug = slugify(self.name)
-            super(User, self).save(*args, **kwargs)
-
+class UserProfile(models.Model):  
+    user = models.OneToOneField(User)
+    age = models.IntegerField(default=0)
+    picture = models.ImageField(upload_to='profile_images', blank=True)
+    
+    
     def __unicode__(self):
-        return self.name
+        return self.user.username
 
 
 # This is the Category model. It contains all the categories.
@@ -45,7 +40,7 @@ class CompletedStory(models.Model):  # See below 2
     slug = models.SlugField()  # So it can be displayed on the url.
     rating = models.IntegerField(default=0)
     creation_date = models.DateTimeField(auto_now_add = True, editable=False)
-	
+
     def save(self, *args, **kwargs):
             self.slug = slugify(self.completed_story_id)
             super(CompletedStory, self).save(*args, **kwargs)
@@ -61,7 +56,6 @@ class OngoingStory(models.Model):
     title = models.CharField(max_length=128)
     creator = models.CharField(max_length=128)
     story_text = models.TextField()  # Stores large amounts of Text. See django documentation
-    users = models.ManyToManyField(User)  # Nice way of connected Many to Many without another table.
     slug = models.SlugField(unique=True)  # So it can be displayed on the url.
     creation_date = models.DateTimeField(auto_now_add = True, editable=False)
     
@@ -72,6 +66,9 @@ class OngoingStory(models.Model):
     def __unicode__(self):
         return self.title
 
+class Contributors(models.Model):
+    contributor = models.ForeignKey(User)
+    story = models.ForeignKey(CompletedStory)
 
 #This is the Rating model. It has the ratings of a story
 # class Rating(models.Model):

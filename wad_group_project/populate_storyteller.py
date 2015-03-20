@@ -6,7 +6,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'wad_group_project.settings')
 import django
 django.setup()
 
-from storyteller.models import Category, User, CompletedStory
+from storyteller.models import Category, UserProfile, CompletedStory
 
 
 def populate():
@@ -38,7 +38,7 @@ def add_cat(name, stories):
 
 
 def add_user(name, age, email, password):
-    u = User.objects.get_or_create(name=name, age=age, email=email, password=password)[0]
+    u = UserProfile.objects.get_or_create(age=age, email=email, password=password)[0]
     return u
 
 
