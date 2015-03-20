@@ -62,7 +62,7 @@ def search(request):
     context_dict = {}
     result_list = []            
     completed_story_list = CompletedStory.objects.filter(Q(title__icontains=qTerm))
-    user_list = User.objects.filter(Q(name__icontains=qTerm))
+    user_list = User.objects.filter(Q(username__icontains=qTerm))
     ongoing_story_list = OngoingStory.objects.filter(Q(title__icontains=qTerm))
     
     context_dict['completed_story_list'] = completed_story_list
@@ -95,3 +95,17 @@ def register_profile(request):
     context_dict['profile_form'] = profile_form
     context_dict['registered'] = registered
     return render(request, 'registration/profile_registration.html', context_dict)
+    
+def profile(request, user_name):
+    context_dict = {}
+    try:
+        user = User.objects.get(username=user_name)
+        context_dict['username'] = user
+    except:
+        pass
+    try:
+        profile = UserProfile.objects.get(user=user)
+        context_dict['profile'] = profile
+    except:
+        pass
+    return render(request, 'storyteller/profile.html', context_dict)

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block body_block %}
+    {% if username %}
+        {% if profile %}
+            <div class="page-header">
+            <h1>{{username.username}}'s profile</h1>
+            </div>
+            {% if profile.picture %}
+                <img alt = "User's photo" src = "{{profile.picture.url}}" height="270" width ="480"/>
+            {% endif %}
+            {% if profile.age %}
+            <br>
+            <b> Age: {{profile.age}} </b>
+            {% endif %}
+            <br>
+            <b> E-mail: {{username.email}} </b>
+            {% else %}
+            {% if user.username == username.username %}
+            <b> Your profile contains so little information... Please update it. </b>
+            {% else %}
+            <b> Not sufficient information for that user. </b>
+            {% endif %}
+            {% endif %}
+            {% if user.username == username.username %}
+            <form action="/storyteller/add_profile" method="get">
+            <input type="submit" value="Edit"
+            name="Submit" id="frm1_submit" />
+            </form>
+            {% endif %}
+            {% else %}
+        <b> User does not exist. </b>
+    {% endif %}
+{% endblock %}

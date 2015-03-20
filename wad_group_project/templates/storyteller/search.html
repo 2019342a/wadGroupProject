@@ -16,7 +16,7 @@
     {% if user_list %}
         <strong> Users: </strong>
         {% for user in user_list %}
-                            <li class="list-group-item"><a href="{% url 'index'  %}">{{user.name}}</a></li>
+                            <li class="list-group-item"><a href="{% url 'profile' user.username %}">{{user.username}}</a></li>
         {% endfor %}
     {%else%} 
         <strong>No users match your search</strong>
