@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'storyteller',
     'registration',
+    'swampdragon',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -103,3 +104,7 @@ ACCOUNT_ACTIVATION_DAYS = 7
 REGISTRATION_AUTO_LOGIN = True  
 LOGIN_REDIRECT_URL = '/storyteller/' 
 LOGIN_URL = '/accounts/login/'
+
+# Swampdragon settings
+SWAMP_DRAGON_CONNECTION = ('swampdragon.connections.sockjs_connection.DjangoSubscriberConnection', '/data')
+DRAGON_URL = 'http://localhost:9999/'

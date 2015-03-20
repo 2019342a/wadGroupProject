@@ -111,3 +111,12 @@ def profile(request, user_name):
     except:
         pass
     return render(request, 'storyteller/profile.html', context_dict)
+
+
+def storyroom(request, storyid):
+    try:
+        s = OngoingStory.objects.get(pk=storyid)
+    except:
+        return redirect('index')
+
+    return render(request, 'storyteller/room.html', {'storyid': storyid})

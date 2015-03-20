@@ -4,6 +4,9 @@ from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 
+from storyteller.serializers import StorySerializer
+from swampdragon.models import SelfPublishModel
+
 # This is the User model. It contains the basic information of a user
 class UserProfile(models.Model):  
     user = models.OneToOneField(User)
@@ -50,22 +53,25 @@ class CompletedStory(models.Model):  # See below 2
 
 
 # This is the OngoingStory model. It has the information of the ongoing stories.
-class OngoingStory(models.Model):
-    ongoing_story_id = models.AutoField(primary_key=True)
+class OngoingStory(SelfPublishModel, models.Model):
+    serializer_class = StorySerializer
     category = models.ForeignKey(Category)  # connection with Category model
     title = models.CharField(max_length=128)
-    creator = models.ForeignKey(User)
+    creator = models.CharField(max_length=128)
     story_text = models.TextField()  # Stores large amounts of Text. See django documentation
+    users = models.ManyToManyField(User)  # Nice way of connected Many to Many without another table.
+    curr_user = models.CharField(max_length=128)
     slug = models.SlugField(unique=True)  # So it can be displayed on the url.
     creation_date = models.DateTimeField(auto_now_add = True, editable=False)
     
     def save(self, *args, **kwargs):
-            self.slug = slugify(self.ongoing_story_id)
+            self.slug = slugify(self.id)
             super(OngoingStory, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.title
 
+    
 class Contributors(models.Model):
     contributor = models.ForeignKey(User)
     story = models.ForeignKey(CompletedStory)

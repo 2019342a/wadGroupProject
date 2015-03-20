@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% load static swampdragon_tags %}
+
+{% block app_block %}ng-app="RoomApp"{% endblock %}
+
+{% block title %}{% endblock %}
+
+{% block body_block %}
+
+{% if user.is_authenticated %}
+
+{% verbatim %}
+<div class="container-fluid" ng-controller="StoryCtrl">
+  <h1>{{ story.title }}</h1>
+  <div class="row">
+    <div class="container-fluid">
+      <div class="col-md-12">
+	<p>{{ story.story_text }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6" id="sentence-input">
+      <textarea class="form-control" id="sentence-input-box" rows="3"></textarea>
+      <p>
+	<button type="button" class="btn btn-default">Suggest end</button>
+	<button type="button" class="btn btn-primary" ng-click="submit(story)">Submit</button>
+      </p>
+    </div>
+    <div class="col-md-6">
+      <p class="text-center"><b>{{ story.curr_user }}</b> taking turn</p>
+      <h2 class="text-center" id="timer">{{ timeLeft }}</h2>
+    </div>
+  </div>      
+</div>
+{% endverbatim %}
+
+{% else %}
+<p>You must be logged in to join a story</p>
+{% endif %}
+
+{% endblock %}
+
+{% block extra_scripts %}
+
+{% if user.is_authenticated %}
+<script type="text/javascript">
+  var extStoryId = {{ storyid }};
+  var username = "{{ user.username }}";
+</script>
+
+<!-- AngularJS -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script>
+
+<!-- Swampdragon javascript -->
+{% swampdragon_settings %}
+<script type="text/javascript" src="{% static 'swampdragon/js/dist/swampdragon.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'swampdragon/js/dist/datamapper.js' %}"></script>
+<script type="text/javascript" src="{% static 'swampdragon/js/angular/services.js' %}"></script>
+
+<!-- BlockUI -->
+<script src="http://malsup.github.io/jquery.blockUI.js"></script>
+
+<!-- StoryTeller app -->
+<script type="text/javascript" src="{% static 'js/storyroom/app.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/storyroom/controllers.js' %}"></script>
+
+{% endif %}
+
+{% endblock %}
