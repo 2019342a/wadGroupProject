@@ -35,14 +35,14 @@ class CompletedStory(models.Model):  # See below 2
     views = models.IntegerField(default=0)  # we need the views for the top stories feature
     category = models.ForeignKey(Category)  # connection with Category model
     title = models.CharField(max_length=128)
-    creator = models.CharField(max_length=128)
+    creator = models.ForeignKey(User)
     story_text = models.TextField()  # Stores large amounts of Text. See django documentation
     slug = models.SlugField()  # So it can be displayed on the url.
     rating = models.IntegerField(default=0)
     creation_date = models.DateTimeField(auto_now_add = True, editable=False)
 
     def save(self, *args, **kwargs):
-            self.slug = slugify(self.completed_story_id)
+            self.slug = self.completed_story_id
             super(CompletedStory, self).save(*args, **kwargs)
 
     def __unicode__(self):
@@ -54,7 +54,7 @@ class OngoingStory(models.Model):
     ongoing_story_id = models.AutoField(primary_key=True)
     category = models.ForeignKey(Category)  # connection with Category model
     title = models.CharField(max_length=128)
-    creator = models.CharField(max_length=128)
+    creator = models.ForeignKey(User)
     story_text = models.TextField()  # Stores large amounts of Text. See django documentation
     slug = models.SlugField(unique=True)  # So it can be displayed on the url.
     creation_date = models.DateTimeField(auto_now_add = True, editable=False)

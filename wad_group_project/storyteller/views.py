@@ -29,10 +29,12 @@ def story(request, story_slug):
     
     try:
         story = CompletedStory.objects.get(slug=story_slug)
+        story.views = story.views + 1
+        story.save()
         context_dict['title']=story.title
         context_dict['text']=story.story_text
         context_dict['creator']=story.creator
-    
+        context_dict['views']=story.views        
     except:
         pass
         
