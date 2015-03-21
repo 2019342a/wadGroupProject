@@ -1,5 +1,9 @@
 var RoomControllers = angular.module('RoomControllers', []);
 
+swampdragon.close(function() {
+    swampdragon.callRouter('remove_user', 'room-control-router', {user: username, storyid: extStoryId});
+});
+
 RoomControllers.controller('StoryCtrl', ['$scope', '$dragon', function($scope, $dragon) {
     $scope.story = {};
     $scope.channel = 'rooms';
@@ -7,8 +11,15 @@ RoomControllers.controller('StoryCtrl', ['$scope', '$dragon', function($scope, $
     $scope.timeLeft = 60;
     $scope.storyId = extStoryId;
     $scope.user = username;
-    $scope.isTurn = false;
+    
+    function removeUser() {
+	$dragon.callRouter('remove_user', 'room-control-router', {user: username, storyid: extStoryId});
+	if ($scope.story.curr_user === $scope.user) {
+	    $dragon.callRouter('next_user', 'room-control-router', {storyid: $scope.storyId, prev_user: $scope.user});
+	}
+    }
 
+    window.onbeforeunload = removeUser;
 
     $dragon.onReady(function() {
 	$dragon.subscribe('story-router', $scope.channel, {id: $scope.storyId}).then(function(response) {
@@ -25,21 +36,15 @@ RoomControllers.controller('StoryCtrl', ['$scope', '$dragon', function($scope, $
 	});
 
     });
-
-    $(window).unload(function() {
-	$dragon.callRouter('remove_user', 'room-control-router', {user: $scope.user, storyid: $scope.storyid});
-    });
-
     
     $dragon.onChannelMessage(function(channels,message) {
 	if (indexOf.call(channels, $scope.channel) > -1) {
 	    $scope.$apply(function() {
 		$scope.dataMapper.mapData($scope.story, message);
 	    });
-
-	    if (message.data.curr_user === $scope.user) {
+	    
+	    if ($scope.story.curr_user === $scope.user) {
 		$('div#sentence-input').unblock();
-		$scope.isTurn = true;
 	    } else {
 		$('div#sentence-input').block({ message: '<h4>Awaiting turn...</h4>'});
 	    }
@@ -63,9 +68,7 @@ RoomControllers.controller('StoryCtrl', ['$scope', '$dragon', function($scope, $
 	$dragon.update('story-router', story);
 	
 	document.getElementById('sentence-input-box').value='';
-
-	//$('div#sentence-input').block({ message: '<h4>Awaiting turn...</h4>'});
-
+	
 	$dragon.callRouter('next_user', 'room-control-router', {storyid: $scope.storyId, prev_user: $scope.user});
     }
 
@@ -75,7 +78,6 @@ RoomControllers.controller('StoryCtrl', ['$scope', '$dragon', function($scope, $
 	if ($scope.timeLeft == -1) {
 	    if ($scope.isTurn) {
 		//$('div#sentence-input').block({ message: '<h4>Awaiting turn...</h4>'});
-		$scope.isTurn = false;
 		$dragon.callRouter('next_user', 'room-control-router', {storyid: $scope.storyId, prev_user: $scope.user});
 	    }
 	    $scope.timeLeft = 60;

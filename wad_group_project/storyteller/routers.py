@@ -34,7 +34,6 @@ class ControlRouter(BaseRouter):
         story.save()
 
     def remove_user(self, **kwargs):
-        print 'removing user'
         old_user = User.objects.get(username=kwargs['user'])
         story = OngoingStory.objects.get(id=kwargs['storyid'])
         story.users.remove(old_user)
@@ -48,8 +47,7 @@ class ControlRouter(BaseRouter):
         rand_user = random.choice(userslist)
         story.curr_user = rand_user.username
         story.save()
-        self.send({'next_user': rand_user.username})
-        self.publish(self.get_subscription_channels(), kwargs)
+
         
         
 route_handler.register(StoryRouter)
