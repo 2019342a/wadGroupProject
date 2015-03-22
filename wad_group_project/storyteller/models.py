@@ -45,7 +45,7 @@ class CompletedStory(models.Model):  # See below 2
     creation_date = models.DateTimeField(auto_now_add = True, editable=False)
 
     def save(self, *args, **kwargs):
-            self.slug = self.completed_story_id
+            self.slug = slugify(self.completed_story_id)
             super(CompletedStory, self).save(*args, **kwargs)
 
     def __unicode__(self):
