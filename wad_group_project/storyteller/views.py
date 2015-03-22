@@ -8,7 +8,7 @@ from django.db.models import Q
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from storyteller.forms import UserForm, UserProfileForm
+from storyteller.forms import UserForm, UserProfileForm, StoryForm
 
 def index(request):
     category_list = Category.objects.order_by('-stories')[:5]
@@ -118,5 +118,21 @@ def storyroom(request, storyid):
         s = OngoingStory.objects.get(pk=storyid)
     except:
         return redirect('index')
+    print s.category.name
+    return render(request, 'storyteller/room.html', {'storyid': storyid, 'storycategory': s.category.name})
 
-    return render(request, 'storyteller/room.html', {'storyid': storyid})
+@login_required
+def add_story(request):
+    context_dict = {}
+    if request.method == 'POST':
+        story_form = StoryForm(request.POST)
+        if story_form.is_valid():
+            story = story_form.save(commit = False)
+            story.creator = request.user
+            story.curr_user = request.user
+            story.save()
+            return redirect(storyroom, storyid=story.id)
+    else:
+        story_form = StoryForm()
+
+    return render(request, 'storyteller/add_story.html', {'form': story_form})

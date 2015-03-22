@@ -2,17 +2,23 @@
 
 {% load static swampdragon_tags %}
 
-{% block app_block %}ng-app="RoomApp"{% endblock %}
+{% block app_block %}data-ng-app="RoomApp"{% endblock %}
 
 {% block title %}{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/storyroom/storyroom.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
 
 {% block body_block %}
 
 {% if user.is_authenticated %}
 
 {% verbatim %}
-<div class="container-fluid" ng-controller="StoryCtrl">
-  <h1>{{ story.title }}</h1>
+<div class="container-fluid" data-ng-controller="StoryCtrl">
+  <div class="page-header">
+    <h1>{{ story.title }}  <small>{{ category }} | Created by: {{ story.creator }}</small></h1>
+  </div>
   <div class="row">
     <div class="container-fluid">
       <div class="col-md-12">
@@ -20,12 +26,12 @@
       </div>
     </div>
   </div>
-  <div class="row">
+  <div class="row" id="sentence-row">
     <div class="col-md-6" id="sentence-input">
       <textarea class="form-control" id="sentence-input-box" rows="3"></textarea>
       <p>
 	<button type="button" class="btn btn-default">Suggest end</button>
-	<button type="button" class="btn btn-primary" ng-click="submit(story)">Submit</button>
+	<button type="button" class="btn btn-primary" data-ng-click="submit(story)">Submit</button>
       </p>
     </div>
     <div class="col-md-6">
@@ -48,6 +54,7 @@
 <script type="text/javascript">
   var extStoryId = {{ storyid }};
   var username = "{{ user.username }}";
+  var category = "{{ storycategory }}";
 </script>
 
 <!-- AngularJS -->

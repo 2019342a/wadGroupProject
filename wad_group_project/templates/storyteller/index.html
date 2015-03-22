@@ -61,7 +61,11 @@
                 {% if ongoing_stories %}
                   <ul class="list-group">
                         {% for story in ongoing_stories %}
-                        <li class="list-group-item"><a href="{% url 'storyroom' story.id %}">{{ story.title }}</a></li>
+                        <li class="list-group-item">
+			  <span class="badge">{{ story.users.count }} writer(s)</span>
+			  <a href="{% url 'storyroom' story.id %}">{{ story.title }}</a>
+			  | {{ story.category.name }}
+			</li>
                         {% endfor %}
                     </ul>
                 {% else %}

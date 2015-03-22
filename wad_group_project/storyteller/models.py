@@ -60,6 +60,7 @@ class OngoingStory(SelfPublishModel, models.Model):
     creator = models.CharField(max_length=128)
     story_text = models.TextField()  # Stores large amounts of Text. See django documentation
     users = models.ManyToManyField(User)  # Nice way of connected Many to Many without another table.
+    contributors = models.ManyToManyField(User, related_name='contributorlist')
     curr_user = models.CharField(max_length=128)
     slug = models.SlugField(unique=True)  # So it can be displayed on the url.
     creation_date = models.DateTimeField(auto_now_add = True, editable=False)
