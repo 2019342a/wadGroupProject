@@ -22,7 +22,7 @@ class StoryRouter(ModelRouter):
 
 class ControlRouter(BaseRouter):
     route_name='room-control-router'
-    valid_verbs = ['add_user', 'remove_user', 'next_user', 'subscribe']
+    valid_verbs = ['add_user', 'remove_user', 'next_user', 'subscribe', 'call_vote', 'vote_end', 'not_ending']
     
     def get_subscription_channels(self, **kwargs):
         return ['control']
@@ -51,7 +51,31 @@ class ControlRouter(BaseRouter):
             rand_user = random.choice(userslist)
             story.curr_user = rand_user.username
             story.save()
-        self.publish(self.get_subscription_channels(), {'update-time': True})
+        self.publish(self.get_subscription_channels(), {'comm': 'update-time'})
+
+    def call_vote(self, **kwargs):
+        story = OngoingStory.objects.get(id=kwargs['storyid'])
+        story.ending = True
+        story.save()
+        self.publish(self.get_subscription_channels(), {'comm': 'call-vote', 'sentence': kwargs['sentence']})
+
+    def vote_end(self, **kwargs):
+        story = OngoingStory.objects.get(id=kwargs['storyid'])
+        story.votes_to_end = story.votes_to_end + 1
+        
+        if story.votes_to_end > (story.users.count() / 2):
+            story.ended = True
+            
+            self.publish(self.get_subscription_channels(), {'comm': 'end'})
+
+        story.save()
+
+    def not_ending(self, **kwargs):
+        story = OngoingStory.objects.get(id=kwargs['storyid'])
+        story.votes_to_end = 0
+        story.ending = False
+        story.save()
+        self.publish(self.get_subscription_channel(), {'comm': 'resume'})
 
         
         

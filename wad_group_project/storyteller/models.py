@@ -64,6 +64,9 @@ class OngoingStory(SelfPublishModel, models.Model):
     curr_user = models.CharField(max_length=128)
     slug = models.SlugField(unique=True)  # So it can be displayed on the url.
     creation_date = models.DateTimeField(auto_now_add = True, editable=False)
+    ending = models.BooleanField(default=False)
+    ended = models.BooleanField(default=False)
+    votes_to_end = models.IntegerField(default=0)
     
     def save(self, *args, **kwargs):
             self.slug = slugify(self.id)

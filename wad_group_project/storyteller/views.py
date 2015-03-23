@@ -118,8 +118,10 @@ def storyroom(request, storyid):
         s = OngoingStory.objects.get(pk=storyid)
     except:
         return redirect('index')
-    print s.category.name
-    return render(request, 'storyteller/room.html', {'storyid': storyid, 'storycategory': s.category.name})
+    if s.ended == True or s.ending == True:
+        return redirect('index')
+    else:
+        return render(request, 'storyteller/room.html', {'storyid': storyid, 'storycategory': s.category.name})
 
 @login_required
 def add_story(request):

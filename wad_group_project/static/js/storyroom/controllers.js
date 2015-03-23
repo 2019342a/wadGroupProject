@@ -10,7 +10,8 @@ RoomControllers.controller('StoryCtrl', ['$scope', '$dragon', function($scope, $
     $scope.storyId = extStoryId;
     $scope.user = username;
     $scope.category = category;
-    
+
+    $scope.stickTime = 0;
     $scope.timeLeft = 0;
     $scope.isTurn = false;
 
@@ -24,8 +25,17 @@ RoomControllers.controller('StoryCtrl', ['$scope', '$dragon', function($scope, $
     $(window).focus(function() {
 	document.title = "StoryTeller - " + $scope.story.title;
     });
+
+    var timer = setInterval(function() {
+	$('#timer').text($scope.timeLeft--);
+	if ($scope.timeLeft == $scope.stickTime - 1) {
+	    $scope.timeLeft = $scope.stickTime;
+	    if ($scope.isTurn && $scope.stickTime === 0) {
+		clearAndGetNextUser();
+	    }
+	}
+    }, 1000);
 		   
-    
     function removeUser() {
 	$dragon.callRouter('remove_user', 'room-control-router', {user: username, storyid: extStoryId});
 	if ($scope.story.curr_user === $scope.user) {
@@ -79,15 +89,30 @@ RoomControllers.controller('StoryCtrl', ['$scope', '$dragon', function($scope, $
 	    });
 	    
 	    if ($scope.story.curr_user === $scope.user) {
-		$('div#sentence-input').unblock();
 		$scope.isTurn = true;
+		$('div#sentence-input').unblock();
+		$('#sentence-input-box').removeAttr('disabled');
+		$('#endbutton').removeAttr('disabled');
+		$('#submitbutton').removeAttr('disabled');
 	    } else {
 		$('div#sentence-input').block({ message: '<h4>Awaiting turn...</h4>'});
+		$('#sentence-input-box').attr('disabled', 'disabled');
+		$('#endbutton').attr('disabled', 'disabled');
+		$('#submitbutton').attr('disabled', 'disabled');
 	    }
 
 	}
 	if (indexOf.call(channels, $scope.controlChannel) > -1) {
-	    $scope.timeLeft = 60;
+	    if (message.comm === "update-time" ){
+		$scope.timeLeft = 60;
+	    } else if (message.comm === "call-vote") {
+		$scope.pause();
+		$scope.end(message.sentence);
+	    } else if (message.comm === "end") {
+		$scope.storyEnd();
+	    } else if (message.comm === "resume") {
+		$scope.resume();
+	    }
 	}
 	
     });
@@ -102,15 +127,71 @@ RoomControllers.controller('StoryCtrl', ['$scope', '$dragon', function($scope, $
 	
     }
 
-   
-    var timer = setInterval(function() {
-	$('#timer').text($scope.timeLeft--);
-	if ($scope.timeLeft == -1) {
-	    $scope.timeLeft = 0;
-	    if ($scope.isTurn) {
-		clearAndGetNextUser();
+    $scope.callVote = function() {
+	var newSentence =  document.getElementById('sentence-input-box').value;
+	$dragon.callRouter('call_vote', 'room-control-router', {sentence: newSentence, storyid:$scope.storyId});
+    }
+    
+    $scope.voteEnd = function() {
+	$dragon.callRouter('vote_end', 'room-control-router', {storyid:$scope.storyId});
+	$('#endStoryModal').modal('hide');
+	$('#voteWaitingModal').modal({
+	    backdrop: 'static',
+	    keyboard: false
+	});
+    }
+
+    $scope.voteDontEnd = function() {
+	$("#endStoryModal").modal('hide');
+	$('#voteWaitingModal').modal({
+	    backdrop: 'static',
+	    keyboard: false
+	});
+    }
+
+    $scope.end = function(sentence) {
+	$scope.voteTimeLeft = 20;
+	var voteTimer = setInterval(function() {
+	    if ($scope.voteTimeLeft == -1 && $scope.story.ended === false) {
+		$scope.notEnd();
 	    }
-	}
-    }, 1000);
+	}, 1000);
+	$("#endSentence").html(fixSentenceGrammar(sentence));
+	$("#endStoryModal").modal({
+	    backdrop: 'static',
+	    keyboard: false
+	});
+    }
+
+    $scope.storyEnd = function() {
+	$('#endModal').modal({
+	    backdrop: 'static',
+	    keyboard: false
+	});
+    }
+
+    $scope.pause = function() {
+	$('#sentence-input-box').attr('disabled', 'disabled');
+	$('#endbutton').attr('disabled', 'disabled');
+	$('#submitbutton').attr('disabled', 'disabled');
+	$scope.stickTime = $scope.timeLeft;
+    }
+
+    $scope.resume = function() {
+	$('#endStoryModal').modal('hide');
+	$('#voteWaitingModal').modal('hide');
+	$('#sentence-input-box').removeAttr('disabled');
+	$('#endbutton').removeAttr('disabled');
+	$('#submitbutton').removeAttr('disabled');
+	$scope.stickTime = 0;
+    }
+
+    $scope.notEnd = function() {
+	$dragon.callRouter('not_ending', 'room-control-router', {storyid:$scope.storyId})
+    }
+
+    $scope.returnToHome = function() {
+	location.reload();
+    }
     
 }]);			
