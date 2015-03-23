@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from itertools import chain
 from operator import attrgetter
-from storyteller.models import Category, OngoingStory, CompletedStory, UserProfile
+from storyteller.models import Category, OngoingStory, CompletedStory, UserProfile, Contributors
 from django.db.models import Q
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
@@ -103,6 +103,11 @@ def profile(request, user_name):
     try:
         user = User.objects.get(username=user_name)
         context_dict['username'] = user
+        try:
+            contributor_list = Contributors.objects.filter(contributor=user)
+            context_dict['contributor_list'] = contributor_list
+        except:
+            pass
     except:
         pass
     try:
