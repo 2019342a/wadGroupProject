@@ -1,3 +1,4 @@
+/* Positions the sentence input row in the story room at the bottom of the page*/
 #sentence-row {
     position:fixed;
     bottom:40px;

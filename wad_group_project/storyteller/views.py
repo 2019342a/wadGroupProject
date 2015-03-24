@@ -12,10 +12,10 @@ from storyteller.forms import UserForm, UserProfileForm, StoryForm
 
 def index(request):
     category_list = Category.objects.order_by('-stories')[:5]
-    completed_story_list_top = CompletedStory.objects.order_by('-rating')[:5]
-    completed_story_list_new = CompletedStory.objects.order_by('-creation_date')[:5]
-    completed_story_list_popular = CompletedStory.objects.order_by('-views')[:5]
-    ongoing_story_list = OngoingStory.objects.order_by('-creation_date')[:5]
+    completed_story_list_top = OngoingStory.objects.filter(ended=True).order_by('-rating')[:5]
+    completed_story_list_new = OngoingStory.objects.filter(ended=True).order_by('-creation_date')[:5]
+    completed_story_list_popular = OngoingStory.objects.filter(ended=True).order_by('-views')[:5]
+    ongoing_story_list = OngoingStory.objects.filter(ended=False, ending=False).order_by('-creation_date')[:5]
     
     context_dict = {'categories': category_list, 'completed_stories_top': completed_story_list_top, 'completed_stories_popular': completed_story_list_popular,
     'ongoing_stories': ongoing_story_list, 'completed_stories_new': completed_story_list_new, }
@@ -28,7 +28,7 @@ def story(request, story_slug):
     context_dict = {}
     
     try:
-        story = CompletedStory.objects.get(slug=story_slug)
+        story = OngoingStory.objects.get(slug=story_slug, ended=True)
         story.views = story.views + 1
         story.save()
         context_dict['title']=story.title
@@ -63,9 +63,9 @@ def search(request):
     qTerm = request.GET.get('q')
     context_dict = {}
     result_list = []            
-    completed_story_list = CompletedStory.objects.filter(Q(title__icontains=qTerm))
+    completed_story_list = OngoingStory.objects.filter(Q(title__icontains=qTerm), ended=True)
     user_list = User.objects.filter(Q(username__icontains=qTerm))
-    ongoing_story_list = OngoingStory.objects.filter(Q(title__icontains=qTerm))
+    ongoing_story_list = OngoingStory.objects.filter(Q(title__icontains=qTerm), ended=False)
     
     context_dict['completed_story_list'] = completed_story_list
     context_dict['ongoing_story_list'] = ongoing_story_list
