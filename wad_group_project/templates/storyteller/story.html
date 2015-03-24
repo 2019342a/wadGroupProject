@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load staticfiles %}
 {% block title %}{{ title }}{% endblock %}
 
 {% block body_block %}
@@ -9,7 +9,22 @@
 		<br>
 		<a href="{% url 'index'  %}">Creator: {{ creator }}</a>
 		</p>
+		<p>
+
+		<strong id="like_count">{{ story.rating }}</strong> people like this story
+        <br>
+		{% if user.is_authenticated %}
+				<button id="likes" data-storyid="{{story.completed_story_id}}" class="btn btn-primary" type="button">
+				<span class="glyphicon glyphicon-thumbs-up"></span>
+				Like
+				</button>
+		{% endif %}
+
+		</p>
+
+
 	{% else %}
         <strong>No such story exists</strong>
 	{% endif %}
+
 {% endblock %}

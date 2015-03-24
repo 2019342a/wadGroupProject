@@ -34,7 +34,8 @@ def story(request, story_slug):
         context_dict['title']=story.title
         context_dict['text']=story.story_text
         context_dict['creator']=story.creator
-        context_dict['views']=story.views        
+        context_dict['views']=story.views
+        context_dict['story']=story
     except:
         pass
         
@@ -143,3 +144,22 @@ def add_story(request):
         story_form = StoryForm()
 
     return render(request, 'storyteller/add_story.html', {'form': story_form})
+
+
+@login_required
+def rate_story(request):
+    
+    story_id = None
+    if request.method == 'GET':
+        story_id = request.GET['story_id']
+    
+    likes = 0
+    if story_id:
+        story = CompletedStory.objects.get(completed_story_id=story_id)
+        
+        if story:
+            likes = story.rating + 1
+            story.rating =  likes
+            story.save()
+
+    return HttpResponse(likes)
