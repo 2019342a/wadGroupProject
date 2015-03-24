@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from itertools import chain
 from operator import attrgetter
-from storyteller.models import Category, OngoingStory, CompletedStory, UserProfile
+from storyteller.models import Category, OngoingStory, CompletedStory, UserProfile, Contributors
 from django.db.models import Q
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
@@ -34,7 +34,8 @@ def story(request, story_slug):
         context_dict['title']=story.title
         context_dict['text']=story.story_text
         context_dict['creator']=story.creator
-        context_dict['views']=story.views        
+        context_dict['views']=story.views
+        context_dict['story']=story
     except:
         pass
         
@@ -103,6 +104,11 @@ def profile(request, user_name):
     try:
         user = User.objects.get(username=user_name)
         context_dict['username'] = user
+        try:
+            contributor_list = Contributors.objects.filter(contributor=user)
+            context_dict['contributor_list'] = contributor_list
+        except:
+            pass
     except:
         pass
     try:
@@ -138,3 +144,22 @@ def add_story(request):
         story_form = StoryForm()
 
     return render(request, 'storyteller/add_story.html', {'form': story_form})
+
+
+@login_required
+def rate_story(request):
+    
+    story_id = None
+    if request.method == 'GET':
+        story_id = request.GET['story_id']
+    
+    likes = 0
+    if story_id:
+        story = CompletedStory.objects.get(completed_story_id=story_id)
+        
+        if story:
+            likes = story.rating + 1
+            story.rating =  likes
+            story.save()
+
+    return HttpResponse(likes)

@@ -28,7 +28,16 @@
             </div>
 
             {% endif %}
-            Here we will put the users stories they wrote-contributed to
+            
+            {% if contributor_list %}
+                <strong> Stories in which {{username.username}} took part in: </strong>
+                {% for entry in contributor_list %}
+                                    <li class="list-group-item"><a href="{% url 'story' entry.story.slug  %}">
+                                    {{ entry.story.title }} (Rating: {{entry.story.rating}} Created: {{entry.story.creation_date}} Views: {{entry.story.views}} )</a></li>
+                {% endfor %}
+            {%else%} 
+                <strong>{{username.username}} has not took a part in any story.</strong>
+            {%endif%}
 
             {% else %}
             {% if user.username == username.username %}
