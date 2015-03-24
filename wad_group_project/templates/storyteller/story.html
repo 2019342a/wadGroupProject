@@ -14,7 +14,7 @@
 		<strong id="like_count">{{ story.rating }}</strong> people like this story
         <br>
 		{% if user.is_authenticated %}
-				<button id="likes" data-storyid="{{story.completed_story_id}}" class="btn btn-primary" type="button">
+				<button id="likes" data-storyid="{{story.id}}" class="btn btn-primary" type="button">
 				<span class="glyphicon glyphicon-thumbs-up"></span>
 				Like
 				</button>
