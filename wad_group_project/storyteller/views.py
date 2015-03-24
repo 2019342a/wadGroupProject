@@ -105,7 +105,7 @@ def profile(request, user_name):
         user = User.objects.get(username=user_name)
         context_dict['username'] = user
         try:
-            contributor_list = Story.objects.filter(contributor=user, ended=True)
+            contributor_list = Story.objects.filter(contributors=user,ended=True)
             context_dict['contributor_list'] = contributor_list
         except:
             pass
@@ -117,7 +117,6 @@ def profile(request, user_name):
     except:
         pass
     return render(request, 'storyteller/profile.html', context_dict)
-
 
 def storyroom(request, storyid):
     try:

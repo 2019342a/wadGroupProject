@@ -22,40 +22,40 @@
     </div>
     <div class="row">
       <div class="container-fluid">
-	<div class="col-md-12">
-	  <p>{{ story.story_text }}</p>
-	</div>
+        <div class="col-md-12">
+          <p>{{ story.story_text }}</p>
+        </div>
       </div>
     </div>
-    <div class="row" id="sentence-row">
+    <div class="row panel" id="sentence-row">
       <div class="col-md-6" id="sentence-input">
-	<textarea class="form-control" id="sentence-input-box" rows="3"></textarea>
-	<p>
-	  <button type="button" class="btn btn-default" id="endbutton" data-ng-click="callVote()">Suggest end</button>
-	  <button type="button" class="btn btn-primary" id="submitbutton" data-ng-click="submit(story)">Submit</button>
-	</p>
+        <textarea class="form-control" id="sentence-input-box" rows="3"></textarea>
+        <p>
+          <button type="button" class="btn btn-default" id="endbutton" data-ng-click="callVote()">Suggest end</button>
+          <button type="button" class="btn btn-primary" id="submitbutton" data-ng-click="submit(story)">Submit</button>
+        </p>
       </div>
       <div class="col-md-6">
-	<p class="text-center"><b>{{ story.curr_user }}</b> taking turn</p>
-	<h2 class="text-center"><span class="label label-warning" id="timer">{{ timeLeft }}</span></h2>
+        <p class="text-center"><b>{{ story.curr_user }}</b> taking turn</p>
+        <h2 class="text-center"><span class="label label-warning" id="timer">{{ timeLeft }}</span></h2>
       </div>
-    </div>      
+    </div>
   </div>
-  
+
   <div class="modal fade" role="dialog" id="endStoryModal">
     <div class="modal-dialog">
       <div class="modal-content">
-	<div class="modal-header">
+        <div class="modal-header">
           <h4 class="modal-title">End Story?</h4>
-	</div>
-	<div class="modal-body">
+        </div>
+        <div class="modal-body">
           <p>A user has elected to end the story with this sentence:</p>
-	  <div class="well" id="endSentence"></div>
-	</div>
-	<div class="modal-footer">
+          <div class="well" id="endSentence"></div>
+        </div>
+        <div class="modal-footer">
           <button type="button" class="btn btn-default" id="modalDontEndButton" data-ng-click="voteDontEnd()">Don't End</button>
           <button type="button" class="btn btn-primary" id="modalEndButton" data-ng-click="voteEnd()">End</button>
-	</div>
+        </div>
       </div>
     </div>
   </div>
@@ -63,9 +63,9 @@
   <div class="modal fade" role="dialog" id="voteWaitingModal">
     <div class="modal-dialog">
       <div class="modal-content">
-	<div class="modal-body">
-	  <p>Awaiting votes...</p>
-	</div>
+        <div class="modal-body">
+          <p>Awaiting votes...</p>
+        </div>
       </div>
     </div>
   </div>
@@ -73,15 +73,15 @@
   <div class="modal fade" role="dialog" id="endModal">
     <div class="modal-dialog">
       <div class="modal-content">
-	<div class="modal-header">
+        <div class="modal-header">
           <h4 class="modal-title">Story Ended</h4>
-	</div>
-	<div class="modal-body">
+        </div>
+        <div class="modal-body">
           <p>This story has ended. Thanks for writing!</p>
-	</div>
-	<div class="modal-footer">
+        </div>
+        <div class="modal-footer">
           <button type="button" class="btn btn-primary" id="modalEndButton" data-ng-click="returnToHome()">Return</button>
-	</div>
+        </div>
       </div>
     </div>
   </div>
@@ -98,9 +98,9 @@
 
 {% if user.is_authenticated %}
 <script type="text/javascript">
-  var extStoryId = {{ storyid }};
-  var username = "{{ user.username }}";
-  var category = "{{ storycategory }}";
+var extStoryId = {{ storyid }};
+var username = "{{ user.username }}";
+var category = "{{ storycategory }}";
 </script>
 
 <!-- AngularJS -->

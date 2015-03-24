@@ -28,14 +28,14 @@
             </div>
 
             {% endif %}
-            
+
             {% if contributor_list %}
                 <strong> Stories in which {{username.username}} took part in: </strong>
                 {% for entry in contributor_list %}
-                                    <li class="list-group-item"><a href="{% url 'story' entry.story.slug  %}">
-                                    {{ entry.story.title }} (Rating: {{entry.story.rating}} Created: {{entry.story.creation_date}} Views: {{entry.story.views}} )</a></li>
+                                    <li class="list-group-item"><a href="{% url 'story' entry.slug  %}">
+                                    {{ entry.title }} (Rating: {{entry.rating}} Created: {{entry.creation_date}} Views: {{entry.views}} )</a></li>
                 {% endfor %}
-            {%else%} 
+            {%else%}
                 <strong>{{username.username}} has not took a part in any story.</strong>
             {%endif%}
 

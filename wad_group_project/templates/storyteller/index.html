@@ -4,93 +4,95 @@
 
 {% block title %}Index{% endblock %}
 
-        {% block body_block %}
-{% if user.is_authenticated %}
-    <div class="page-header">
+{% block body_block %}
 
-                <h1>Are you ready to write a story, {{ user.username }}?</h1>
-            {% else %}
-                <h1><span class="label label-primary">Stories!!!</span></h1>
-            {% endif %}
+{% if user.is_authenticated %}
+<div class="page-header">
+  <h1>Are you ready to write a story, {{ user.username }}?</h1>
+  {% else %}
+  <h1><span class="label label-primary">Stories!!!</span></h1>
+  {% endif %}
 </div>
 
-         <div class="row placeholders">
-            <div class="col-xs-12 col-sm-6 placeholder">
-               <h4><span class="label label-info">Completed Stories</span></h4><br>
+<div class="row placeholders">
+  <div class="col-xs-12 col-sm-6 placeholder">
+    <h4><span class="label label-info">Completed Stories</span></h4><br>
 
-             <div role="tabpanel">
-               <ul class="nav nav-tabs" role="tablist">
-                 <li role="presentation" class=" active"><a href="#top" aria-controls="top" role="tab" data-toggle="tab">Top</a>
-                 <li role="presentation"><a href="#new" aria-controls="new" role="tab" data-toggle="tab">New</a></li>
-                 <li role="presentation"><a href="#popular" aria-controls="popular" role="tab" data-toggle="tab">Popular</a></li>
-               </ul>
+    <div role="tabpanel">
+      <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class=" active"><a href="#top" aria-controls="top" role="tab" data-toggle="tab">Top</a>
+        <li role="presentation"><a href="#new" aria-controls="new" role="tab" data-toggle="tab">New</a></li>
+        <li role="presentation"><a href="#popular" aria-controls="popular" role="tab" data-toggle="tab">Popular</a></li>
+      </ul>
 
-              {% if completed_stories_top %}
-              <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active" id="top">
-                   <ul class="list-group">
-                        {% for story in completed_stories_top %}
-                            <li class="list-group-item"><a href="{% url 'story' story.slug  %}">
-                            {{ story.title }} (Rating: {{story.rating}} Created: {{story.creation_date}} Views: {{story.views}} )</a></li>
-                        {% endfor %}
-                  </ul>
-                </div>
-                <div role="tabpanel" class="tab-pane" id="new">
-                  <ul class="list-group">
-                       {% for story in completed_stories_new %}
-                           <li class="list-group-item"><a href="{% url 'story' story.slug  %}">
-                           {{ story.title }} (Rating: {{story.rating}} Created: {{story.creation_date}} Views: {{story.views}} )</a></li>
-                       {% endfor %}
-                 </ul></div>
-                <div role="tabpanel" class="tab-pane" id="popular"><ul class="list-group">
-                       {% for story in completed_stories_popular %}
-                            <li class="list-group-item"><a href="{% url 'story' story.slug  %}">
-                            {{ story.title }} (Rating: {{story.rating}} Created: {{story.creation_date}} Views: {{story.views}} )</a></li>
-                       {% endfor %}
-                 </ul>
-                 </div>
-              </div>
-                {% else %}
-                    <strong>There are no completed stories present.</strong>
-                {% endif %}
-              </div>
-            </div>
-            <div class="col-xs-12 col-sm-6 placeholder">
-              <h4><span class="label label-info">Ongoing stories</span></h4><br>
-
-                {% if ongoing_stories %}
-                  <ul class="list-group">
-                        {% for story in ongoing_stories %}
-                        <li class="list-group-item">
-			  <span class="badge">{{ story.users.count }} writer(s)</span>
-			  <a href="{% url 'storyroom' story.id %}">{{ story.title }}</a>
-			  | {{ story.category.name }}
-			</li>
-                        {% endfor %}
-                    </ul>
-                {% else %}
-                    <strong>There are no ongoing stories right now.</strong>
-                {% endif %}
-            </div>
-
-          </div>
-
-          <div class="col-sm-3 col-md-2 sidebar">
-
-    {% block side_block %}
-    {% if categories %}
-    <h2><span class="label label-default">Categories</span></h2> <br>
-                    <ul class="list-group">
-                        {% for cat in categories %}
-                        <li class="list-group-item"><a href="{% url 'category' cat.slug %}">{{ cat.name }} ({{ cat.story_set.count }})</a></li>
-                        {% endfor %}
-                    </ul>
-                {% else %}
-                    <strong>There are no ongoing stories right now.</strong>
-                {% endif %}
-    {% endblock %}
-
-
+      {% if completed_stories_top %}
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="top">
+          <ul class="list-group">
+            {% for story in completed_stories_top %}
+            <li class="list-group-item"><a href="{% url 'story' story.slug  %}">
+              {{ story.title }} (Rating: {{story.rating}} Created: {{story.creation_date}} Views: {{story.views}} )</a></li>
+            {% endfor %}
+          </ul>
         </div>
+        <div role="tabpanel" class="tab-pane" id="new">
+          <ul class="list-group">
+            {% for story in completed_stories_new %}
+            <li class="list-group-item"><a href="{% url 'story' story.slug  %}">
+              {{ story.title }} (Rating: {{story.rating}} Created: {{story.creation_date}} Views: {{story.views}} )</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="popular">
+          <ul class="list-group">
+            {% for story in completed_stories_popular %}
+            <li class="list-group-item"><a href="{% url 'story' story.slug  %}">
+              {{ story.title }} (Rating: {{story.rating}} Created: {{story.creation_date}} Views: {{story.views}} )</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      {% else %}
+      <strong>There are no completed stories present.</strong>
+      {% endif %}
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-6 placeholder">
+    <h4><span class="label label-info">Ongoing stories</span></h4><br>
 
-        {% endblock %}
+    {% if ongoing_stories %}
+    <ul class="list-group">
+      {% for story in ongoing_stories %}
+      <li class="list-group-item">
+        <span class="badge">{{ story.users.count }} writer(s)</span>
+        <a href="{% url 'storyroom' story.id %}">{{ story.title }}</a>
+        | {{ story.category.name }}
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <strong>There are no ongoing stories right now.</strong>
+    {% endif %}
+  </div>
+
+</div>
+
+<div class="col-sm-3 col-md-2 sidebar">
+
+  {% block side_block %}
+  {% if categories %}
+  <h2><span class="label label-default">Categories</span></h2> <br>
+  <ul class="list-group">
+    {% for cat in categories %}
+    <li class="list-group-item"><a href="{% url 'category' cat.slug %}">{{ cat.name }} ({{ cat.story_set.count }})</a></li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <strong>There are no ongoing stories right now.</strong>
+  {% endif %}
+  {% endblock %}
+
+
+</div>
+
+{% endblock %}

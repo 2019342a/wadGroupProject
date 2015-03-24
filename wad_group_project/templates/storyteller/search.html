@@ -2,14 +2,14 @@
 
 {% block title %}Search results{% endblock %}
 {% block body_block %}
-    
+
     {% if completed_story_list %}
         <strong> Completed stories: </strong>
         {% for story in completed_story_list %}
                             <li class="list-group-item"><a href="{% url 'story' story.slug  %}">
                             {{ story.title }} (Rating: {{story.rating}} Created: {{story.creation_date}} Views: {{story.views}} )</a></li>
         {% endfor %}
-    {%else%} 
+    {%else%}
         <strong>No completed stories match your search</strong>
     {%endif%}
     <br>
@@ -18,19 +18,19 @@
         {% for user in user_list %}
                             <li class="list-group-item"><a href="{% url 'profile' user.username %}">{{user.username}}</a></li>
         {% endfor %}
-    {%else%} 
+    {%else%}
         <strong>No users match your search</strong>
     {%endif%}
     <br>
     {% if ongoing_story_list %}
         <strong> Ongoing stories: </strong>
     {% for story in ongoing_story_list %}
-                            <li class="list-group-item"><a href="{% url 'index'  %}"> {{ story.title }} Created: {{story.creation_date}}</a></li>
+                            <li class="list-group-item"><a href="{% url 'storyroom' story.slug %}"> {{ story.title }} Created: {{story.creation_date}}</a></li>
         {% endfor %}
-    {%else%} 
+    {%else%}
         <strong>No ongoing stories match your search</strong>
     {%endif%}
-    
+
 
 
 {% endblock %}
