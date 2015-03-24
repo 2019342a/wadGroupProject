@@ -4,20 +4,24 @@
 {% block title %}{{ category_name }}{% endblock %}
 
 {% block body_block %}
-    <h1><span class="label label-primary">{{ category_name }}</span></h1><br>
+<div class="page-header">
+  <h1>{{ category_name }}</h1>
+</div>
+<div class="panel panel-default">
+  <div class="panel-body">
     {% if category %}
-        {% if completed_stories %}
-               <ul class="list-group">
-                {% for story in completed_stories %}
-                <li class="list-group-item"><a href="{% url 'story' story.slug  %}">{{ story.title }}</a></li>
-                {% endfor %}
-                </ul>
-        {% else %}
-                <strong>No stories currently in this category.</strong>
-                {% endif %}
-
-        {% else %}
-                 The specified category {{ category_name }} does not exist!
+      {% if completed_stories %}
+      <ul class="list-group">
+        {% for story in completed_stories %}
+        <li class="list-group-item"><a href="{% url 'story' story.slug  %}">{{ story.title }}</a></li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <strong>No stories currently in this category.</strong>
+      {% endif %}
+    {% else %}
+      <p>The specified category {{ category_name }} does not exist!</p>
     {% endif %}
-
+  </div>
+</div>
 {% endblock %}

@@ -11,11 +11,11 @@ from django.contrib.auth.decorators import login_required
 from storyteller.forms import UserForm, UserProfileForm, StoryForm
 
 def index(request):
-    category_list = Category.objects.annotate(num_stories=Count('story')).order_by('-num_stories')[:5]
-    completed_story_list_top = Story.objects.filter(ended=True).order_by('-rating')[:5]
-    completed_story_list_new = Story.objects.filter(ended=True).order_by('-creation_date')[:5]
-    completed_story_list_popular = Story.objects.filter(ended=True).order_by('-views')[:5]
-    ongoing_story_list = Story.objects.filter(ended=False, ending=False).order_by('-creation_date')[:5]
+    category_list = Category.objects.annotate(num_stories=Count('story')).order_by('-num_stories')[:10]
+    completed_story_list_top = Story.objects.filter(ended=True).order_by('-rating')[:10]
+    completed_story_list_new = Story.objects.filter(ended=True).order_by('-creation_date')[:10]
+    completed_story_list_popular = Story.objects.filter(ended=True).order_by('-views')[:10]
+    ongoing_story_list = Story.objects.filter(ended=False, ending=False).order_by('-creation_date')[:10]
 
     context_dict = {'categories': category_list, 'completed_stories_top': completed_story_list_top, 'completed_stories_popular': completed_story_list_popular,
     'ongoing_stories': ongoing_story_list, 'completed_stories_new': completed_story_list_new, }
@@ -147,7 +147,6 @@ def add_story(request):
 
 @login_required
 def rate_story(request):
-
     story_id = None
     if request.method == 'GET':
         story_id = request.GET['story_id']
