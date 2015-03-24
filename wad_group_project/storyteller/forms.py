@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from storyteller.models import UserProfile, OngoingStory
+from storyteller.models import UserProfile, Story
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
@@ -17,5 +17,5 @@ class UserProfileForm(forms.ModelForm):
 class StoryForm(forms.ModelForm):
     title = forms.CharField(max_length=128, help_text="Title")
     class Meta:
-        model = OngoingStory
+        model = Story
         fields = ('title', 'category')

@@ -21,7 +21,6 @@ class UserProfile(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=128, unique=True)
     slug = models.SlugField(unique=True)  # So it can be displayed on the url.
-    stories = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
             self.slug = slugify(self.name)
@@ -31,8 +30,8 @@ class Category(models.Model):
         return self.name
 
 
-# This is the OngoingStory model. It has the information of the ongoing stories.
-class OngoingStory(SelfPublishModel, models.Model):
+# This is the Story model. It has the information of the stories.
+class Story(SelfPublishModel, models.Model):
     serializer_class = StorySerializer
 
     title = models.CharField(max_length=128)
@@ -56,7 +55,7 @@ class OngoingStory(SelfPublishModel, models.Model):
 
     def save(self, *args, **kwargs):
             self.slug = slugify(self.id)
-            super(OngoingStory, self).save(*args, **kwargs)
+            super(Story, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.title

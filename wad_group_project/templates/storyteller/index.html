@@ -82,7 +82,7 @@
     <h2><span class="label label-default">Categories</span></h2> <br>
                     <ul class="list-group">
                         {% for cat in categories %}
-                        <li class="list-group-item"><a href="{% url 'category' cat.slug %}">{{ cat.name }} ({{ cat.stories }})</a></li>
+                        <li class="list-group-item"><a href="{% url 'category' cat.slug %}">{{ cat.name }} ({{ cat.story_set.count }})</a></li>
                         {% endfor %}
                     </ul>
                 {% else %}
