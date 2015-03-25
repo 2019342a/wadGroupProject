@@ -147,17 +147,17 @@ def add_story(request):
 
 @login_required
 def rate_story(request):
-    
+
     story_id = None
     like = 0
     if request.method == 'GET':
         story_id = request.GET['story_id']
         like = int(request.GET['like'])
-    
+
     likes = 0
     if story_id:
-        story = CompletedStory.objects.get(completed_story_id=story_id)
-        
+        story = Story.objects.get(id=story_id)
+
         if story:
             likes = story.rating + like
             story.rating =  likes

@@ -1,0 +1,20 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Categories</div>
+  <div class="panel-body">
+    {% if cats %}
+    <ul class="list-group">
+      {% for cat in cats %}
+      {% if cat == act_cat %}
+      <li class="list-group-item active">
+      {% else %}
+      <li class="list-group-item">
+      {% endif %}
+        <a href="{% url 'category' cat.slug %}">{{ cat.name }} ({{ cat.story_set.count }})</a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <strong>No categories!</strong>
+    {% endif %}
+  </div>
+</div>

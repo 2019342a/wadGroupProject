@@ -1,18 +1,20 @@
 {% load staticfiles %}
-<!DOCTYPE html>
-<html lang="en" {% block app_block %}{% endblock %}>
+{% load storyteller_extras %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" {% block app_block %}{% endblock %}>
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <link rel="icon" href="http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons/glossy-black-icons-alphanumeric/070873-glossy-black-icon-alphanumeric-letter-s.png">
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="description" content=""/>
+  <meta name="author" content=""/>
+  <link rel="icon" href="http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons/glossy-black-icons-alphanumeric/070873-glossy-black-icon-alphanumeric-letter-s.png"/>
 
   <title>Storyteller - {% block title %}One story - many authors!{% endblock %}</title>
 
-  <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
-  <link href="http://getbootstrap.com/examples/dashboard/dashboard.css" rel="stylesheet">
+  <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet"/>
+  <link href="http://getbootstrap.com/examples/dashboard/dashboard.css" rel="stylesheet"/>
   {% block extra_css %}{% endblock %}
 
 
@@ -39,7 +41,7 @@
         <ul class="nav navbar-nav navbar-right">
           <form class="navbar-form navbar-left" method="get" action="{% url 'search' %}">
             <div class="input-group">
-              <input type="text" name="q" id="id_q" class="form-control" placeholder="Search...">
+              <input type="text" name="q" id="id_q" class="form-control" placeholder="Search..."/>
               <div class="input-group-btn">
                 <button type="submit" value="Submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
               </div>
@@ -63,6 +65,7 @@
       <div class="col-sm-3 col-md-2 sidebar">
 
         {% block side_block %}
+          {% get_category_list category %}
         {% endblock %}
 
       </div>
@@ -77,11 +80,11 @@
   <!-- Bootstrap core JavaScript
   ================================================== -->
   <!-- Placed at the end of the document so the pages load faster -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script type="text/javascript" src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
   <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-  <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
-  <script src="{% static "js/storyteller-ajax.js" %}"></script>
+  <script type="text/javascript" src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+  <script type="text/javascript" src="{% static "js/storyteller-ajax.js" %}"></script>
   {% block extra_scripts %}{% endblock %}
 </body>
 </html>

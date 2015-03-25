@@ -86,20 +86,3 @@
 </div>
 
 {% endblock %}
-
-{% block side_block %}
-{% if categories %}
-<div class="panel panel-default">
-  <div class="panel-heading">Categories</div>
-  <div class="panel-body">
-    <ul class="list-group">
-      {% for cat in categories %}
-      <li class="list-group-item"><a href="{% url 'category' cat.slug %}">{{ cat.name }} ({{ cat.story_set.count }})</a></li>
-      {% endfor %}
-    </ul>
-    {% else %}
-    <strong>No categories!</strong>
-    {% endif %}
-  </div>
-</div>
-{% endblock %}
