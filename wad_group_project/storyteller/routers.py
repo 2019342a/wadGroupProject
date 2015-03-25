@@ -85,7 +85,7 @@ class ControlRouter(BaseRouter):
         if story.votes_counted == story.users.count():
             story.ending = False
             story.votes_counted = 0;
-            self.votes_to_end = 0;
+            story.votes_to_end = 0;
             self.publish(self.get_subscription_channels(), {'comm': 'resume'})
             story.ended = False
         story.save()
