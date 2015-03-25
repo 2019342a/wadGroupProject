@@ -15,10 +15,14 @@
 				<div class="panel-body">
 					<p><strong id="like_count">{{ story.rating }}</strong> people like this story</p>
 					{% if user.is_authenticated %}
-					<button id="likes" data-storyid="{{story.id}}" class="btn btn-primary" type="button">
-						<span class="glyphicon glyphicon-thumbs-up"></span>
-						Like
-					</button>
+					<button id="likes" data-storyid="{{story.completed_story_id}}" data-like=1 class="btn btn-primary" type="button">
+                        <span class="glyphicon glyphicon-thumbs-up"></span>
+                        Like
+                        </button>
+                    <button id="dislikes" data-storyid="{{story.completed_story_id}}" data-like=-1 class="btn btn-primary" type="button">
+                        <span class="glyphicon glyphicon-thumbs-down"></span>
+                        Dislike
+                        </button>
 					{% endif %}
 				</div>
 			</div>
