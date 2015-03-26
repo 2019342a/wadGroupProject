@@ -70,7 +70,7 @@ def add_user(name, age, email, password):
 
 def add_completed_story(views, category, title, creator, story_text, rating, contributors):
     s = Story.objects.get_or_create(views=views, category=category, title=title, creator=creator,
-                                   story_text=story_text, rating = rating, ending=True, ended=True)[0]
+                                   story_text=story_text, rating=rating, ending=True, ended=True)[0]
     for add_contributor in contributors:
         s.contributors.add(add_contributor)
     s.save();

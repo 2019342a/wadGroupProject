@@ -1,11 +1,10 @@
-__author__ = 'Theofilos Alexiou'
-
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 
 from storyteller.serializers import StorySerializer
 from swampdragon.models import SelfPublishModel
+
 
 # This is the User model. It contains the basic information of a user
 class UserProfile(models.Model):
@@ -39,7 +38,7 @@ class Story(SelfPublishModel, models.Model):
     creator = models.CharField(max_length=128)
     story_text = models.TextField()  # Stores large amounts of Text. See django documentation
     contributors = models.ManyToManyField(User, related_name='contributorlist')
-    creation_date = models.DateTimeField(auto_now_add = True, editable=False)
+    creation_date = models.DateTimeField(auto_now_add=True, editable=False)
     slug = models.SlugField(unique=True)  # So it can be displayed on the url.
 
     views = models.IntegerField(default=0)
@@ -59,19 +58,3 @@ class Story(SelfPublishModel, models.Model):
 
     def __unicode__(self):
         return self.title
-
-
-
-# Comments:
-# 1. We will probably wont need all these as we will use auth application
-# or django-registration-redux or something similar
-# 2. We are going to need two tables of Stories. One for completed and one for
-# ongoing stories.The ongoing stories are connected with the users as it is in
-# our specification. The completed stories are connected with the rating table.
-# 3. Hopefully it will generate a unique id to use.
-# 4. We will probably need a contributor attribute to Completed stories to display
-# in our Wireframes.
-# 5. In Rating model I didn't include a toString method as it asks for a String and
-# we don't really need it. You will se the ratings in the database named as rating object.
-# 6. In completedStory I removed the unique=True in slug because it raised an exception
-# error. It might be the same in OngoingStory as I haven't populated it.

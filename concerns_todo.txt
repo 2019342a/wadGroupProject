@@ -1,6 +1,0 @@
-TODO:      we need to create a better model for user using the django.contrib.auth.
-	   bootstrap the search 
-
-Concerns : For the ongoing stories we need javascript. After cheking the documentation 
-           the only think I have found is this http://getbootstrap.com/javascript/#transitions.
-           
