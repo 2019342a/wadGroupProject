@@ -66,6 +66,10 @@ redis-server
 
 On Windows, navigate to the directory where you installed redis and run redis-server.exe from a command line.
 
+---
+
+The website should now be available from 127.0.0.1:8000/storyteller or localhost:8000/storyteller
+
 
 ## Running populate_storyteller.py
 

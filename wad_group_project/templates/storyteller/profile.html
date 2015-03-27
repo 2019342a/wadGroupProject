@@ -20,7 +20,7 @@
                   <b> E-mail: {{username.email}} </b>
                   {% if user.username == username.username %}
                   <p>
-                    <a href="/storyteller/add_profile" class="btn btn-primary" role="button">Edit</a>
+                    <a href="{% url 'add_profile' %}" class="btn btn-primary" role="button">Edit</a>
                   </p>
                   {% endif %}
                 </div>
@@ -41,7 +41,7 @@
 
             {% else %}
             {% if user.username == username.username %}
-            <b> Your profile contains so little information... Please update it. </b>
+            <b> Your profile contains so little information... Please <a href="{% url 'add_profile' %}">update it</a>. </b>
             {% else %}
             <b> Not sufficient information for that user. </b>
             {% endif %}
